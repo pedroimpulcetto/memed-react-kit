@@ -1,3 +1,8 @@
+## ⚠️ Unofficial Fork
+
+This is a community-maintained fork of [`memed-react`](https://github.com/jonatassales/memed-react). 
+
+
 # memed-react
 `memed-react` é uma biblioteca desenvolvida para o ecossistema React com o objetivo de ajudar na integração com o serviço de prescrição médica online da [Memed](https://memed.com.br/). Algumas etapas da homologação já são feitas pela `lib`, como a desativação de algumas funções, adesão dos dados do paciente antes do módulo estar liberado para uso, e a criação do script em execução que carregam as instancias `MdHub` e `MdSinapsePrescricao`, responsáveis por alguns `bindings` de eventos e commandos.
 
