@@ -1,30 +1,31 @@
-import React from 'react'
+import React, { ReactElement, ReactNode, RefObject, useCallback, useMemo, useState } from 'react'
 
-import { ModuleOptions, Patient } from '../domain'
-import { useScriptLoader, useSetupCommands, useActionButtonBind, useSetupPatient } from '../hooks'
+import { ModuleOptions, Patient, Workplace } from '../domain'
+import { useScriptLoader, useSetupCommands, useActionButtonBind, useSetupPatient, useSetupWorkplace } from '../hooks'
 import MemedContext from '../contexts/MemedContext'
 
 import { cleanUp, showPrescription, hidePrescription } from '../actions'
 
 interface MemedContextProviderProps {
-  children: React.ReactNode
+  children: ReactNode
   color?: string
   scriptSrc?: string
   scriptId?: string
 }
 
-export default function MemedProvider(props: MemedContextProviderProps): React.ReactElement {
+export default function MemedProvider(props: MemedContextProviderProps): ReactElement {
   const {
     children,
     color = '#00B8D6',
-    scriptSrc = 'https://sandbox.memed.com.br/modulos/plataforma.sinapse-prescricao/build/sinapse-prescricao.min.js',
+    scriptSrc = 'https://integrations.memed.com.br/modulos/plataforma.sinapse-prescricao/build/sinapse-prescricao.min.js',
     scriptId = 'memedScript'
   } = props
 
-  const [doctorToken, setDoctorToken] = React.useState('')
-  const [patient, setPatient] = React.useState<Patient>()
-  const [actionRef, setActionRef] = React.useState<React.RefObject<HTMLButtonElement>>()
-  const [options, setOptions] = React.useState<ModuleOptions>()
+  const [doctorToken, setDoctorToken] = useState('')
+  const [patient, setPatient] = useState<Patient>()
+  const [workplace, setWorkplace] = useState<Workplace>()
+  const [actionRef, setActionRef] = useState<RefObject<HTMLButtonElement>>()
+  const [options, setOptions] = useState<ModuleOptions>()
 
   const { prescriptionLoaded } = useScriptLoader({
     doctorToken,
@@ -34,23 +35,27 @@ export default function MemedProvider(props: MemedContextProviderProps): React.R
   })
 
   const { patientSet } = useSetupPatient({ patient, prescriptionLoaded })
+  const { workplaceSet } = useSetupWorkplace({ workplace, prescriptionLoaded })
 
   useSetupCommands({ options, prescriptionLoaded })
 
-  useActionButtonBind({ patientSet, actionRef })
+  useActionButtonBind({ patientSet, workplaceSet, actionRef })
 
-  const onLogout = React.useCallback(() => {
+  const onLogout = useCallback(() => {
     if (prescriptionLoaded) {
       cleanUp(scriptId)
     }
   }, [scriptId, prescriptionLoaded])
 
-  const loadingModule = React.useMemo(() => !prescriptionLoaded || !patientSet, [prescriptionLoaded, patientSet])
+  const loadingModule = useMemo(() => {
+    return !prescriptionLoaded || !patientSet || !workplaceSet
+  }, [prescriptionLoaded, patientSet, workplaceSet])
 
-  const contextValue = React.useMemo(
+  const contextValue = useMemo(
     () => ({
       setDoctorToken,
       setPatient,
+      setWorkplace,
       setActionRef,
       onLogout,
       loadingModule,
