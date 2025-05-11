@@ -6,5 +6,5 @@ export interface Patient {
   telefone?: string // (DDD) XXXXX-XXXX
   peso?: number
   altura?: number
-  data_nascimento?: string // dd/mm/YYYY
+  dataNascimento?: string // dd/mm/YYYY
 }

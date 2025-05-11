@@ -8,12 +8,13 @@ export default async function setMemedPatient(patient: Patient): Promise<void> {
 
   const { nome, endereco, cidade, telefone, peso, altura, idExterno } = patient
   await window.MdHub.command.send('plataforma.prescricao', 'setPaciente', {
+    idExterno,
     nome,
     endereco,
     cidade,
     telefone,
     peso,
     altura,
-    idExterno
+    data_nascimento: patient.dataNascimento
   })
 }

@@ -7,12 +7,16 @@
   "homepage": "https://memed-react-refs.vercel.app/",
   "author": "Pedro Impulcetto <pedro.impulcetto@gmail.com>",
   "license": "MIT",
-  "keywords": ["memed", "react memed kit", "memed integracao"],
+  "keywords": [
+    "memed",
+    "react memed kit",
+    "memed integracao"
+  ],
   "scripts": {
     "build": "tsc",
     "lint": "eslint --ext .ts,.tsx ./src"
   },
-  "peerDependencies": { 
+  "peerDependencies": {
     "react": "16.8.x || 17.x"
   },
   "devDependencies": {
