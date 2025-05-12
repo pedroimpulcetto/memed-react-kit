@@ -11,6 +11,7 @@ export interface MemedContextValue {
   showPrescription: () => void
   hidePrescription: () => void
   loadingModule: boolean
+  patientSet: boolean
 }
 
 const MemedContext = React.createContext<MemedContextValue | undefined>(undefined)
