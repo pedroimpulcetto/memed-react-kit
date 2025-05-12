@@ -61,7 +61,8 @@ export default function MemedProvider(props: MemedContextProviderProps): ReactEl
       loadingModule,
       showPrescription,
       hidePrescription,
-      setOptions
+      setOptions,
+      patientSet
     }),
     [onLogout, loadingModule]
   )
